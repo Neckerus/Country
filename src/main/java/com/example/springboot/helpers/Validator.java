@@ -4,6 +4,7 @@ import com.example.springboot.model.Country;
 import com.example.springboot.model.exception.CountryNotFoundException;
 import com.example.springboot.model.exception.NoRoadFoundException;
 
+import static com.example.springboot.helpers.CountryHelper.countryBorders;
 import static com.example.springboot.helpers.CountryHelper.countryMap;
 
 public class Validator {
@@ -18,6 +19,11 @@ public class Validator {
 
         if (endCountry == null) {
             throw new CountryNotFoundException(destination);
+        }
+
+        if (countryBorders.getBorders().get(startCountry).size() == 0 ||
+                countryBorders.getBorders().get(endCountry).size() == 0) {
+            throw new NoRoadFoundException();
         }
 
         if (!startCountry.getRegion().isConnection(endCountry.getRegion())) {
